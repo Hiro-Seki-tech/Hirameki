@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>～閃き💡を導き未来を照らす～</title>
+    <style>
+        /* 全体ベース：添付画像の宇宙的サイバー空間をイメージ */
+        body {
+            margin: 0;
+            padding: 0;
+            background: radial-gradient(circle at center, #1a0b2e 0%, #05020a 100%);
+            color: #ffffff;
+            font-family: 'Helvetica Neue', Arial, 'Hiragino Kaku Gothic ProN', sans-serif;
+            overflow-x: hidden;
+            min-height: 100vh;
+        }
+
+        /* 背景に散りばめる星の煌めき */
+        body::before {
+            content: "";
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background-image: 
+                radial-gradient(white, rgba(255,255,255,.2) 2px, transparent 40px),
+                radial-gradient(white, rgba(255,255,255,.15) 1px, transparent 30px);
+            background-size: 550px 550px, 350px 350px;
+            background-position: 0 0, 40px 60px;
+            opacity: 0.4;
+            z-index: -1;
+        }
+
+        /* ヘッダーエリア */
+        header {
+            text-align: center;
+            padding: 60px 20px 40px;
+        }
+
+        /* 電球がピカッと明滅して閃きを表現するコンテナ */
+        .bulb-container {
+            font-size: 80px;
+            cursor: pointer;
+            display: inline-block;
+            position: relative;
+            animation: pulseGlow 2.5s infinite alternate ease-in-out;
+        }
+
+        /* 電球の発光アニメーション */
+        @keyframes pulseGlow {
+            0% {
+                transform: scale(1);
+                text-shadow: 0 0 10px rgba(255, 230, 0, 0.5), 0 0 20px rgba(255, 230, 0, 0.3);
+                filter: drop-shadow(0 0 5px rgba(255,230,0,0.4));
+            }
+            100% {
+                transform: scale(1.08);
+                text-shadow: 0 0 30px #ffe600, 0 0 50px #ff9900, 0 0 80px #ff5500;
+                filter: drop-shadow(0 0 25px rgba(255,230,0,0.9));
+            }
+        }
+
+        /* タイトルネオンエフェクト */
+        h1 {
+            font-size: 2.5rem;
+            margin-top: 20px;
+            letter-spacing: 2px;
+            color: #fff;
+            text-shadow: 0 0 10px #00ffff, 0 0 20px #00ffff, 0 0 30px #ff00ff;
+            font-weight: 700;
+        }
+
+        /* メインコンテンツ：4つのカテゴリーグリッド */
+        .grid-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 30px;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px 20px 60px;
+        }
+
+        /* 各カードのスタイル */
+        .card {
+            background: rgba(20, 10, 35, 0.6);
+            border: 2px solid rgba(0, 255, 255, 0.2);
+            border-radius: 16px;
+            padding: 30px;
+            text-align: center;
+            backdrop-filter: blur(8px);
+            transition: all 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
+            position: relative;
+            overflow: hidden;
+        }
+
+        /* [3] カテゴリー（カード）を選んだ時（ホバー時）の枠の色を水色（#00ffff）に変更 */
+        .card:hover {
+            transform: translateY(-10px);
+            border-color: #00ffff;
+            box-shadow: 0 10px 30px rgba(0, 255, 255, 0.4), inset 0 0 15px rgba(0, 255, 255, 0.2);
+        }
+
+        /* カテゴリーアイコン・タイトル */
+        .card-icon {
+            font-size: 45px;
+            margin-bottom: 15px;
+        }
+
+        .card-title {
+            font-size: 1.6rem;
+            margin: 10px 0;
+            font-weight: 600;
+        }
+
+        /* [2] カラー変更指示の反映 */
+        /* エネルギー：黄色 */
+        .card.energy .card-title { color: #ffe600; text-shadow: 0 0 5px rgba(255,230,0,0.5); }
+        /* 物質：緑 */
+        .card.matter .card-title { color: #00ff66; text-shadow: 0 0 5px rgba(0,255,102,0.5); }
+        /* 情報：紫 */
+        .card.info .card-title { color: #cc00ff; text-shadow: 0 0 5px rgba(204,0,255,0.5); }
+        /* 宇宙：水色 */
+        .card.space .card-title { color: #00ffff; text-shadow: 0 0 5px rgba(0,255,255,0.5); }
+
+        .card p {
+            font-size: 0.95rem;
+            color: #cccccc;
+            line-height: 1.6;
+        }
+
+        /* リンクボタンのスタイリング */
+        .btn {
+            display: inline-block;
+            margin-top: 15px;
+            padding: 10px 20px;
+            border-radius: 30px;
+            text-decoration: none;
+            font-weight: bold;
+            font-size: 0.9rem;
+            transition: all 0.3s ease;
+        }
+
+        /* 宇宙シミュレータボタン（アクティブ） */
+        .btn-space {
+            background: linear-gradient(45deg, #00bfff, #00ffff);
+            color: #05020a;
+            box-shadow: 0 0 15px rgba(0, 255, 255, 0.4);
+        }
+        .btn-space:hover {
+            background: linear-gradient(45deg, #00ffff, #ffffff);
+            box-shadow: 0 0 25px #00ffff;
+            transform: scale(1.05);
+        }
+
+        /* 量子シミュレータボタン（建設中） */
+        .btn-construction {
+            background: rgba(255, 255, 255, 0.1);
+            color: #888888;
+            border: 1px dashed rgba(0, 255, 255, 0.3);
+            pointer-events: none;
+        }
+
+        /* フッター */
+        footer {
+            text-align: center;
+            padding: 30px;
+            color: #555577;
+            font-size: 0.85rem;
+            border-top: 1px solid rgba(255,255,255,0.05);
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <div class="bulb-container" title="ひらめいた！">💡</div>
+        <h1>～閃き💡を導き未来を照らす～</h1>
+        </header>
+
+    <main class="grid-container">
+
+        <div class="card energy">
+            <div class="card-icon">⚡</div>
+            <div class="card-title">1. エネルギー</div>
+            <p>世界の根源を動かす次世代の動力。核融合から未知のクリーンエネルギーまで、未来を駆動する閃きをここに。</p>
+        </div>
+
+        <div class="card matter">
+            <div class="card-icon">⚛️</div>
+            <div class="card-title">2. 物質</div>
+            <p>新素材や量子レベルのナノテクノロジー。世界を形作るエレメントのイノベーション。</p>
+            <a href="#" class="btn btn-construction">🔬 量子シミュレータ（建設中）</a>
+        </div>
+
+        <div class="card info">
+            <div class="card-icon">🧠</div>
+            <div class="card-title">3. 情報</div>
+            <p>生成AI、超高速通信、精度を極めるサイバー・インテリジェンスの最前線。</p>
+        </div>
+
+        <div class="card space">
+            <div class="card-icon">🚀</div>
+            <div class="card-title">4. 宇宙</div>
+            <p>無限のフロンティアへ！衛星の軌道を美しくコントロールしたり、遥かなる星々へロケットを打ち上げたり……。あなたの手で宇宙を操り、遊びながら最先端の宇宙技術に触れてみませんか？</p>
+            <a href="https://hiro-seki-tech.github.io/orbit-simulator/" target="_blank" class="btn btn-space">🌌 宇宙シミュレータを起動する</a>
+        </div>
+
+    </main>
+
+    <footer>
+        &copy; 2026 Knight of Originality Project. All Rights Reserved.
+    </footer>
+
+</body>
+</html>
