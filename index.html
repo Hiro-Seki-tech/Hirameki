@@ -158,7 +158,7 @@
             font-weight: 600;
         }
 
-        /* カラー変更指示の反映 */
+        /* カラー変更指示 of Gempick */
         /* エネルギー：黄色 */
         .card.energy .card-title { color: #ffe600; text-shadow: 0 0 5px rgba(255,230,0,0.5); }
         /* 物質：緑 */
@@ -374,6 +374,7 @@
 
     <!-- Original HP content co-created with Gemlin -->
     <header>
+        <!-- Bouncing bubble wrapped around title bulb -->
         <h1>～閃き<span class="bulb-wrapper"><span id="interactive-bulb" class="inline-bulb" title="クリックするとオープニング演出がいつでも再スタートするわ！">💡</span><span class="click-bubble">クリック！</span></span>を導き未来を照らす～</h1>
     </header>
 
@@ -395,7 +396,7 @@
         <div class="card info">
             <div class="card-icon">🧠</div>
             <div class="card-title">3. 情報</div>
-            <p>生成AI、超高速通信、精度を極めるサイバー・インテリジェンス of 最前線。</p>
+            <p>生成AI、超高速通信、精度を極めるサイバー・インテリジェンスの最前線。</p>
         </div>
 
         <div class="card space">
@@ -576,7 +577,11 @@
                     const easeInQuart = Math.pow(progress, 4);
                     const currentRadius = easeInQuart * 150; 
 
-                    const maskValue = `radial-gradient(circle at 50.3% 51.8%, black ${currentRadius}%, transparent ${currentRadius + 15}%)`;
+                    // Dynamic feathering edge: starts extremely tight (2.5%) and grows to 15% 
+                    // This keeps the initial revealed circle perfectly localized, only showing half of the boy's face!
+                    const feather = 2.5 + (progress * 12.5);
+
+                    const maskValue = `radial-gradient(circle at 50.3% 51.8%, black ${currentRadius}%, transparent ${currentRadius + feather}%)`;
                     introImg.style.webkitMaskImage = maskValue;
                     introImg.style.maskImage = maskValue;
 
