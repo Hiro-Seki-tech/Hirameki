@@ -33,40 +33,44 @@
         /* ヘッダーエリア */
         header {
             text-align: center;
-            padding: 60px 20px 40px;
-        }
-
-        /* 電球がピカッと明滅して閃きを表現するコンテナ */
-        .bulb-container {
-            font-size: 80px;
-            cursor: pointer;
-            display: inline-block;
-            position: relative;
-            animation: pulseGlow 2.5s infinite alternate ease-in-out;
-        }
-
-        /* 電球の発光アニメーション */
-        @keyframes pulseGlow {
-            0% {
-                transform: scale(1);
-                text-shadow: 0 0 10px rgba(255, 230, 0, 0.5), 0 0 20px rgba(255, 230, 0, 0.3);
-                filter: drop-shadow(0 0 5px rgba(255,230,0,0.4));
-            }
-            100% {
-                transform: scale(1.08);
-                text-shadow: 0 0 30px #ffe600, 0 0 50px #ff9900, 0 0 80px #ff5500;
-                filter: drop-shadow(0 0 25px rgba(255,230,0,0.9));
-            }
+            padding: 80px 20px 40px; /* Shifted padding down for refined layout */
         }
 
         /* タイトルネオンエフェクト */
         h1 {
             font-size: 2.5rem;
-            margin-top: 20px;
+            margin: 0;
             letter-spacing: 2px;
             color: #fff;
             text-shadow: 0 0 10px #00ffff, 0 0 20px #00ffff, 0 0 30px #ff00ff;
             font-weight: 700;
+        }
+
+        /* [2] Inline interactive glowing bulb within the title */
+        .inline-bulb {
+            display: inline-block;
+            cursor: pointer;
+            position: relative;
+            animation: pulseGlowInline 2.5s infinite alternate ease-in-out;
+            transition: transform 0.25s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            margin: 0 4px;
+        }
+        .inline-bulb:hover {
+            transform: scale(1.35) rotate(15deg);
+        }
+
+        /* Neon pulse animation customized for the inline bulb */
+        @keyframes pulseGlowInline {
+            0% {
+                transform: scale(1);
+                text-shadow: 0 0 10px rgba(255, 230, 0, 0.6), 0 0 20px rgba(255, 230, 0, 0.3);
+                filter: drop-shadow(0 0 4px rgba(255, 230, 0, 0.5));
+            }
+            100% {
+                transform: scale(1.15);
+                text-shadow: 0 0 25px #ffe600, 0 0 45px #ff9900, 0 0 70px #ff5500;
+                filter: drop-shadow(0 0 20px rgba(255, 230, 0, 0.95));
+            }
         }
 
         /* メインコンテンツ：4つのカテゴリーグリッド */
@@ -79,7 +83,7 @@
             padding: 20px 20px 60px;
         }
 
-        /* 各カードのスタイル */
+        /* 各カード of Gemlin's Layout */
         .card {
             background: rgba(20, 10, 35, 0.6);
             border: 2px solid rgba(0, 255, 255, 0.2);
@@ -167,48 +171,472 @@
             font-size: 0.85rem;
             border-top: 1px solid rgba(255,255,255,0.05);
         }
+
+        /* ========================================================
+           Gempick's Premium Opening Cinematic Overlay Styling
+           ======================================================== */
+        #gempick-intro-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            background-color: #000000;
+            /* Set above everything */
+            z-index: 999999;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            overflow: hidden;
+            pointer-events: all;
+            opacity: 1;
+        }
+
+        /* The beautiful uploaded background illustration with wakuwaku.png */
+        #gempick-intro-image {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: url('wakuwaku.png');
+            background-size: cover;
+            /* [1] Anchored exactly to Y: 51.5% and X: 52.2% for perfect boy's head centering */
+            background-position: 52.2% 51.5%;
+            opacity: 0;
+            /* [1] Mask is also precisely anchored to the matching coordinate */
+            -webkit-mask-image: radial-gradient(circle at 52.2% 51.5%, black 0%, transparent 0%);
+            mask-image: radial-gradient(circle at 52.2% 51.5%, black 0%, transparent 0%);
+            -webkit-mask-repeat: no-repeat;
+            mask-repeat: no-repeat;
+        }
+
+        /* Failsafe Text Box (shows ONLY if image cannot be loaded) */
+        #gempick-failsafe-text {
+            position: absolute;
+            bottom: 40px;
+            text-align: center;
+            font-size: 0.85rem;
+            color: #ffd700;
+            background: rgba(0, 0, 0, 0.85);
+            padding: 10px 20px;
+            border-radius: 20px;
+            border: 1px solid #ffd700;
+            max-width: 80%;
+            z-index: 1000001;
+            opacity: 0;
+            transition: opacity 1s ease;
+            pointer-events: none;
+            line-height: 1.5;
+        }
+
+        /* The magical initial spark bulb - [1] Positioned perfectly at 52.2% / 51.5% */
+        #gempick-spark-bulb {
+            position: absolute;
+            top: 51.5%;
+            left: 52.2%;
+            transform: translate(-50%, -50%) scale(0);
+            font-size: 72px; /* Perfect sizing match with artwork */
+            opacity: 0;
+            z-index: 1000000;
+            filter: drop-shadow(0 0 25px rgba(255, 230, 0, 0.95)) drop-shadow(0 0 50px rgba(255, 170, 0, 0.6));
+            pointer-events: none;
+            user-select: none;
+        }
+
+        /* ========================================================
+           Floating Gallery & Download Center
+           ======================================================== */
+        .gallery-trigger {
+            position: fixed;
+            bottom: 25px;
+            right: 25px;
+            background: rgba(20, 10, 35, 0.85);
+            border: 2px solid #00ffff;
+            padding: 12px 18px;
+            border-radius: 50px;
+            cursor: pointer;
+            font-size: 0.85rem;
+            font-weight: bold;
+            color: #00ffff;
+            box-shadow: 0 0 15px rgba(0, 255, 255, 0.3);
+            transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            z-index: 500;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .gallery-trigger:hover {
+            transform: scale(1.08) translateY(-3px);
+            background: #00ffff;
+            color: #05020a;
+            box-shadow: 0 0 25px rgba(0, 255, 255, 0.7);
+        }
+
+        /* Simple Modal */
+        #art-modal {
+            position: fixed;
+            top: 0; left: 0; width: 100vw; height: 100vh;
+            background: rgba(3, 1, 8, 0.95);
+            z-index: 9999;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.4s ease;
+            padding: 20px;
+        }
+        #art-modal.active {
+            opacity: 1;
+            pointer-events: all;
+        }
+        .modal-content {
+            position: relative;
+            max-width: 90%;
+            max-height: 75%;
+            border-radius: 16px;
+            box-shadow: 0 0 40px rgba(255, 215, 0, 0.3);
+            border: 2px solid #ffd700;
+            overflow: hidden;
+        }
+        .modal-content img {
+            max-width: 100%;
+            max-height: 100%;
+            display: block;
+        }
+        .modal-actions {
+            margin-top: 20px;
+            display: flex;
+            gap: 15px;
+            align-items: center;
+        }
+        .btn-download {
+            background: linear-gradient(135deg, #ffd700 0%, #ffaa00 100%);
+            color: #05020a;
+            padding: 12px 25px;
+            border-radius: 30px;
+            text-decoration: none;
+            font-weight: bold;
+            font-size: 0.95rem;
+            box-shadow: 0 0 15px rgba(255, 215, 0, 0.4);
+            transition: all 0.3s ease;
+        }
+        .btn-download:hover {
+            background: linear-gradient(135deg, #ffffff 0%, #ffd700 100%);
+            box-shadow: 0 0 25px rgba(255, 215, 0, 0.8);
+            transform: scale(1.05);
+        }
+        .btn-close {
+            background: rgba(255, 255, 255, 0.1);
+            color: #ffffff;
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            padding: 12px 25px;
+            border-radius: 30px;
+            cursor: pointer;
+            font-weight: bold;
+            font-size: 0.95rem;
+            transition: all 0.3s ease;
+        }
+        .btn-close:hover {
+            background: rgba(255, 255, 255, 0.2);
+        }
     </style>
 </head>
 <body>
 
+    <!-- Gempick's Majestic Cinematic Intro Overlay -->
+    <div id="gempick-intro-overlay">
+        <div id="gempick-intro-image"></div>
+        <div id="gempick-spark-bulb">💡</div>
+        <div id="gempick-failsafe-text">
+            💡 <strong>画像が表示されない場合のお願い：</strong><br>
+            『<code>wakuwaku.png</code>』という名前の画像ファイルを、<br>
+            この <code>index.html</code> と<strong>同じフォルダ内</strong>に保存してから開いてみてくださいね！
+        </div>
+    </div>
+
+    <!-- Original HP content co-created with Gemlin -->
     <header>
-        <div class="bulb-container" title="ひらめいた！">💡</div>
-        <h1>～閃き💡を導き未来を照らす～</h1>
-        </header>
+        <!-- [2] Removed old large bulb. Inserted interactive glowing bulb within the title phrase -->
+        <h1>～閃き<span id="interactive-bulb" class="inline-bulb" title="クリックするとオープニング演出がいつでも再スタートするわ！">💡</span>を導き未来を照らす～</h1>
+    </header>
 
     <main class="grid-container">
 
         <div class="card energy">
             <div class="card-icon">⚡</div>
             <div class="card-title">1. エネルギー</div>
-            <p>世界の根源を動かす次世代の動力。核融合から未知のクリーンエネルギーまで、未来を駆動する閃きをここに。</p>
+            <p>世界の根源を動かす次世代の動力。核融合から未知 of クリーンエネルギーまで、未来を駆動する閃きをここに。</p>
         </div>
 
         <div class="card matter">
             <div class="card-icon">⚛️</div>
             <div class="card-title">2. 物質</div>
-            <p>新素材や量子レベルのナノテクノロジー。世界を形作るエレメントのイノベーション。</p>
+            <p>新素材や量子レベル of ナノテクノロジー。世界を形作るエレメント of イノベーション。</p>
             <a href="#" class="btn btn-construction">🔬 量子シミュレータ（建設中）</a>
         </div>
 
         <div class="card info">
             <div class="card-icon">🧠</div>
             <div class="card-title">3. 情報</div>
-            <p>生成AI、超高速通信、精度を極めるサイバー・インテリジェンスの最前線。</p>
+            <p>生成AI、超高速通信、精度を極めるサイバー・インテリジェンス of 最前線。</p>
         </div>
 
         <div class="card space">
             <div class="card-icon">🚀</div>
             <div class="card-title">4. 宇宙</div>
-            <p>無限のフロンティアへ！衛星の軌道を美しくコントロールしたり、遥かなる星々へロケットを打ち上げたり……。あなたの手で宇宙を操り、遊びながら最先端の宇宙技術に触れてみませんか？</p>
+            <p>無限のフロンティアへ！衛星の軌道を美しくコントロールしたり、遥かなる星々へロケットを打ち上げたり……。あなたの手で宇宙を操り、遊びながら最先端 of 宇宙技術に触れてみませんか？</p>
             <a href="https://hiro-seki-tech.github.io/orbit-simulator/" target="_blank" class="btn btn-space">🌌 宇宙シミュレータを起動する</a>
         </div>
 
     </main>
 
+    <!-- Floating Concept Gallery Trigger & Download Buttons -->
+    <div class="gallery-trigger" onclick="openArtModal()">
+        <span>🖼️ アートを拡大/ダウンロード</span>
+    </div>
+
+    <!-- Art Viewer Modal -->
+    <div id="art-modal">
+        <div class="modal-content">
+            <img src="wakuwaku.png" id="modal-img-tag" alt="閃きとワクワク 電球バージョン" onerror="handleModalImgError(this)">
+        </div>
+        <div class="modal-actions">
+            <!-- Download Button (Rule Compliance) -->
+            <a href="wakuwaku.png" download="wakuwaku.png" class="btn-download" id="modal-dl-btn">
+                📥 画像をダウンロードする
+            </a>
+            <button class="btn-close" onclick="closeArtModal()">閉じる</button>
+        </div>
+    </div>
+
     <footer>
         &copy; 2026 Knight of Originality Project. All Rights Reserved.
     </footer>
+
+    <!-- Gempick's High-precision Animation Engine -->
+    <script>
+        // Check if image loads successfully or fails
+        const testImg = new Image();
+        let imageExists = false;
+
+        testImg.onload = function() {
+            imageExists = true;
+        };
+        testImg.onerror = function() {
+            imageExists = false;
+        };
+        testImg.src = "wakuwaku.png";
+
+        // ========================================================
+        // Gempick's Premium Pikareen Synth Sound System (Web Audio API)
+        // ========================================================
+        let audioCtx = null;
+        function playPikareenSound() {
+            try {
+                // Initialize context safely
+                if (!audioCtx) {
+                    audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+                }
+                if (audioCtx.state === 'suspended') {
+                    audioCtx.resume();
+                }
+
+                const now = audioCtx.currentTime;
+
+                // 1. Crystal Shimmer Chime (Arpeggio sweep)
+                const playChimeNode = (freq, delay, duration, volume) => {
+                    const osc = audioCtx.createOscillator();
+                    const gain = audioCtx.createGain();
+                    
+                    osc.type = 'triangle';
+                    osc.frequency.setValueAtTime(freq, now + delay);
+                    
+                    // Modulate frequency slightly up for sparkly chime sweep
+                    osc.frequency.exponentialRampToValueAtTime(freq * 1.05, now + delay + duration);
+                    
+                    gain.gain.setValueAtTime(0, now + delay);
+                    gain.gain.linearRampToValueAtTime(volume, now + delay + 0.02);
+                    gain.gain.exponentialRampToValueAtTime(0.001, now + delay + duration);
+                    
+                    osc.connect(gain);
+                    gain.connect(audioCtx.destination);
+                    osc.start(now + delay);
+                    osc.stop(now + delay + duration);
+                };
+
+                // Play rapid sparkling upward arpeggio with sweet pikareen shimmer
+                playChimeNode(1046.50, 0.00, 0.8, 0.06); // C6
+                playChimeNode(1318.51, 0.08, 0.8, 0.06); // E6
+                playChimeNode(1567.98, 0.16, 0.8, 0.06); // G6
+                playChimeNode(2093.00, 0.24, 1.2, 0.08); // C7 (High shimmer peak)
+                playChimeNode(2637.02, 0.32, 1.0, 0.04); // E7
+
+                // 2. Add an ambient low-warm swelling hum under the spark
+                const swellOsc = audioCtx.createOscillator();
+                const swellGain = audioCtx.createGain();
+                swellOsc.type = 'sine';
+                swellOsc.frequency.setValueAtTime(196.00, now); // G3 warm base
+                swellOsc.frequency.exponentialRampToValueAtTime(392.00, now + 0.4);
+                
+                swellGain.gain.setValueAtTime(0, now);
+                swellGain.gain.linearRampToValueAtTime(0.12, now + 0.2);
+                swellGain.gain.exponentialRampToValueAtTime(0.001, now + 0.8);
+                
+                swellOsc.connect(swellGain);
+                swellGain.connect(audioCtx.destination);
+                swellOsc.start(now);
+                swellOsc.stop(now + 0.8);
+
+            } catch (e) {
+                console.log("AudioContext is restricted or not supported yet:", e);
+            }
+        }
+
+        // Main Cinematic Sequence function that can be run ANYTIME
+        function startCinematicIntro() {
+            // Create overlay elements dynamically if they were deleted or reuse
+            let overlay = document.getElementById("gempick-intro-overlay");
+            if (!overlay) {
+                overlay = document.createElement("div");
+                overlay.id = "gempick-intro-overlay";
+                overlay.innerHTML = `
+                    <div id="gempick-intro-image"></div>
+                    <div id="gempick-spark-bulb">💡</div>
+                    <div id="gempick-failsafe-text">
+                        💡 <strong>画像が表示されない場合のお願い：</strong><br>
+                        『<code>wakuwaku.png</code>』という名前の画像ファイルを、<br>
+                        この <code>index.html</code> と<strong>同じフォルダ内</strong>に保存してから開いてみてくださいね！
+                    </div>
+                `;
+                document.body.appendChild(overlay);
+            }
+
+            const introImg = document.getElementById("gempick-intro-image");
+            const sparkBulb = document.getElementById("gempick-spark-bulb");
+            const failsafeText = document.getElementById("gempick-failsafe-text");
+
+            // Reset Initial States
+            overlay.style.opacity = "1";
+            overlay.style.pointerEvents = "all";
+            introImg.style.opacity = "0";
+            // [1] Locked anchor coordinates perfectly at 52.2% X and 51.5% Y
+            introImg.style.webkitMaskImage = "radial-gradient(circle at 52.2% 51.5%, black 0%, transparent 0%)";
+            introImg.style.maskImage = "radial-gradient(circle at 52.2% 51.5%, black 0%, transparent 0%)";
+            sparkBulb.style.opacity = "0";
+            sparkBulb.style.transform = "translate(-50%, -50%) scale(0)";
+            failsafeText.style.opacity = "0";
+
+            // If the image test failed, prepare failsafe guide after dark screen
+            setTimeout(() => {
+                if (!imageExists) {
+                    failsafeText.style.opacity = "1";
+                }
+            }, 600);
+
+            // [1 & 2] Spark bulb bursts to life at 0.4s and plays "Pikareen" sound
+            setTimeout(() => {
+                sparkBulb.style.transition = "transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275), opacity 0.2s ease";
+                sparkBulb.style.transform = "translate(-50%, -50%) scale(1.1)";
+                sparkBulb.style.opacity = "1";
+                sparkBulb.style.textShadow = "0 0 35px #ffffff, 0 0 70px #ffe600, 0 0 110px #ff9900";
+                
+                // Play "Pikareen" Synthesizer!
+                playPikareenSound();
+            }, 400);
+
+            // [2] New schedule: Hold the lit bulb for exactly 1.0 second (0.4s to 1.4s),
+            // then expand utilizing an Ease-In exponent speed curve (Starts slow, then accelerates!).
+            setTimeout(() => {
+                introImg.style.opacity = "1";
+                
+                const startTime = performance.now();
+                const duration = 3000; // 3.0 seconds total expansion duration
+
+                function animateLightExpansion(currentTime) {
+                    const elapsed = currentTime - startTime;
+                    const progress = Math.min(elapsed / duration, 1);
+
+                    // [2] Ease-In Quart Curve: progress^4
+                    // Starts incredibly slow, and builds up velocity to explode outward near the end
+                    const easeInQuart = Math.pow(progress, 4);
+                    const currentRadius = easeInQuart * 150; 
+
+                    // [1] Expansion is anchored exactly on the synced bulb center (52.2% X, 51.5% Y)
+                    const maskValue = `radial-gradient(circle at 52.2% 51.5%, black ${currentRadius}%, transparent ${currentRadius + 15}%)`;
+                    introImg.style.webkitMaskImage = maskValue;
+                    introImg.style.maskImage = maskValue;
+
+                    if (progress < 1) {
+                        requestAnimationFrame(animateLightExpansion);
+                    }
+                }
+                requestAnimationFrame(animateLightExpansion);
+            }, 1400); // Trigger expansion 1.0 second after the bulb sparks (0.4s + 1.0s = 1.4s)
+
+            // Slowly dissolve spark bulb as the wave rushes past (around 3.8s)
+            setTimeout(() => {
+                sparkBulb.style.transition = "opacity 0.8s ease, transform 0.8s ease";
+                sparkBulb.style.opacity = "0";
+                sparkBulb.style.transform = "translate(-50%, -50%) scale(0.9)";
+            }, 3800);
+
+            // [4] Hold for 3.0 seconds after full illumination (Expansion ends at 1.4s + 3.0s = 4.4s. 4.4s + 3.0s pause = 7.4s)
+            setTimeout(() => {
+                overlay.style.transition = "opacity 0.8s ease-in-out";
+                overlay.style.opacity = "0";
+                failsafeText.style.opacity = "0";
+            }, 7400);
+
+            // Complete cleanup after animation completely finishes (8.2s)
+            setTimeout(() => {
+                overlay.style.pointerEvents = "none";
+            }, 8200);
+        }
+
+        // Run automatically on load
+        document.addEventListener("DOMContentLoaded", () => {
+            startCinematicIntro();
+
+            // Link inline title bulb to reload/replay the animation!
+            const interactiveBulb = document.getElementById("interactive-bulb");
+            if (interactiveBulb) {
+                interactiveBulb.addEventListener("click", () => {
+                    startCinematicIntro();
+                });
+            }
+        });
+
+        // ========================================================
+        // Modal & Image Utility functions (Rule compliance)
+        // ========================================================
+        function openArtModal() {
+            const modal = document.getElementById("art-modal");
+            modal.classList.add("active");
+        }
+
+        function closeArtModal() {
+            const modal = document.getElementById("art-modal");
+            modal.classList.remove("active");
+        }
+
+        function handleModalImgError(img) {
+            img.style.display = "none";
+            const parent = img.parentElement;
+            const errorTip = document.createElement("div");
+            errorTip.style.padding = "40px";
+            errorTip.style.color = "#ffd700";
+            errorTip.style.textAlign = "center";
+            errorTip.innerHTML = `
+                <div style="font-size:3rem; margin-bottom:10px;">⚠️</div>
+                <strong>『wakuwaku.png』が見つかりません。</strong><br>
+                <span style="font-size:0.8rem; color:#888;">このHTMLと同じフォルダに画像を置いてからお試しください。</span>
+            `;
+            parent.appendChild(errorTip);
+        }
+    </script>
 
 </body>
 </html>
