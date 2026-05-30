@@ -46,6 +46,12 @@
             font-weight: 700;
         }
 
+        /* [2] Interactive Bulb Wrapper for absolute positioning of tooltip */
+        .bulb-wrapper {
+            position: relative;
+            display: inline-block;
+        }
+
         /* Inline interactive glowing bulb within the title */
         .inline-bulb {
             display: inline-block;
@@ -57,6 +63,43 @@
         }
         .inline-bulb:hover {
             transform: scale(1.35) rotate(15deg);
+        }
+
+        /* [2] Cute floating "Click!" speech bubble above the title bulb */
+        .click-bubble {
+            position: absolute;
+            bottom: 120%; /* Hover nicely above the bulb */
+            left: 50%;
+            transform: translateX(-50%);
+            background: linear-gradient(135deg, #ffd700, #ff8800);
+            color: #05020a;
+            font-size: 0.65rem;
+            font-weight: bold;
+            padding: 4px 10px;
+            border-radius: 8px;
+            white-space: nowrap;
+            box-shadow: 0 4px 12px rgba(255, 215, 0, 0.5);
+            animation: bounceBubble 1.4s infinite alternate ease-in-out;
+            pointer-events: none; /* Clicks pass right through to bulb */
+            z-index: 10;
+        }
+
+        /* Speech bubble arrow tail pointing down */
+        .click-bubble::after {
+            content: '';
+            position: absolute;
+            top: 100%;
+            left: 50%;
+            transform: translateX(-50%);
+            border-width: 5px;
+            border-style: solid;
+            border-color: #ff8800 transparent transparent transparent;
+        }
+
+        /* Smooth bounce animation for Click Speech bubble */
+        @keyframes bounceBubble {
+            0% { transform: translate(-50%, 0); }
+            100% { transform: translate(-50%, -6px); }
         }
 
         /* Neon pulse animation customized for the inline bulb */
@@ -213,18 +256,18 @@
             height: 100%;
             background-image: url('wakuwaku.png');
             background-size: 100% 100%;
-            /* [1] Recalibrated to perfect coordinates for the new wakuwaku.png */
-            background-position: 49.6% 53.2%;
+            /* [1] Recalibrated to perfect boy's head coordinates for wakuwaku.png (moved slightly right & up) */
+            background-position: 50.3% 51.8%;
             background-repeat: no-repeat;
             opacity: 0; /* Fully separated to allow independent spark bulb illumination! */
             /* [1] Mask is also precisely anchored at the matching coordinate */
-            -webkit-mask-image: radial-gradient(circle at 49.6% 53.2%, black 0%, transparent 0%);
-            mask-image: radial-gradient(circle at 49.6% 53.2%, black 0%, transparent 0%);
+            -webkit-mask-image: radial-gradient(circle at 50.3% 51.8%, black 0%, transparent 0%);
+            mask-image: radial-gradient(circle at 50.3% 51.8%, black 0%, transparent 0%);
             -webkit-mask-repeat: no-repeat;
             mask-repeat: no-repeat;
         }
 
-        /* [2] Responsive Custom Zoom: Amplified to 175% to make the artwork look much larger and full-frame on smartphones/tablets! */
+        /* Responsive Custom Zoom: Amplified to 175% to make the artwork look much larger and full-frame on smartphones/tablets! */
         @media (max-width: 1024px) and (orientation: portrait) {
             .gempick-aspect-box {
                 width: 175vw;
@@ -232,14 +275,14 @@
             }
         }
 
-        /* The magical spark bulb - [1] Shifted to the left at 49.6% and slightly down to 53.2% */
+        /* The magical spark bulb - [1] Shifted to 50.3% / 51.8% and resized slightly smaller to map head position */
         #gempick-spark-bulb {
             position: absolute;
-            top: 53.2%;
-            left: 49.6%;
+            top: 51.8%;
+            left: 50.3%;
             transform: translate(-50%, -50%) scale(0);
             /* Sizing scales beautifully on mobile and desktop */
-            font-size: clamp(32px, 4.5vw, 72px); 
+            font-size: clamp(24px, 3.2vw, 55px); 
             opacity: 0;
             z-index: 1000000;
             filter: drop-shadow(0 0 25px rgba(255, 230, 0, 0.95)) drop-shadow(0 0 50px rgba(255, 170, 0, 0.6));
@@ -261,35 +304,36 @@
 
     <!-- Original HP content co-created with Gemlin -->
     <header>
-        <!-- Removed old large bulb. Interactive glowing bulb nested inside the title phrase -->
-        <h1>～閃き<span id="interactive-bulb" class="inline-bulb" title="クリックするとオープニング演出がいつでも再スタートするわ！">💡</span>を導き未来を照らす～</h1>
+        <!-- [2] Bouncing bubble wrapped around title bulb -->
+        <h1>～閃き<span class="bulb-wrapper"><span id="interactive-bulb" class="inline-bulb" title="クリックするとオープニング演出がいつでも再スタートするわ！">💡</span><span class="click-bubble">クリック！</span></span>を導き未来を照らす～</h1>
     </header>
 
     <main class="grid-container">
 
+        <!-- [3] Removed "of" from descriptions to ensure pure, natural Japanese -->
         <div class="card energy">
             <div class="card-icon">⚡</div>
             <div class="card-title">1. エネルギー</div>
-            <p>世界の根源を動かす次世代の動力。核融合から未知 of クリーンエネルギーまで、未来を駆動する閃きをここに。</p>
+            <p>世界の根源を動かす次世代の動力。核融合から未知のクリーンエネルギーまで、未来を駆動する閃きをここに。</p>
         </div>
 
         <div class="card matter">
             <div class="card-icon">⚛️</div>
             <div class="card-title">2. 物質</div>
-            <p>新素材や量子レベル of ナノテクノロジー。世界を形作るエレメント of イノベーション。</p>
+            <p>新素材や量子レベルのナノテクノロジー。世界を形作るエレメントのイノベーション。</p>
             <a href="#" class="btn btn-construction">🔬 量子シミュレータ（建設中）</a>
         </div>
 
         <div class="card info">
             <div class="card-icon">🧠</div>
             <div class="card-title">3. 情報</div>
-            <p>生成AI、超高速通信、精度を極めるサイバー・インテリジェンス of 最前線。</p>
+            <p>生成AI、超高速通信、精度を極めるサイバー・インテリジェンスの最前線。</p>
         </div>
 
         <div class="card space">
             <div class="card-icon">🚀</div>
             <div class="card-title">4. 宇宙</div>
-            <p>無限のフロンティアへ！衛星の軌道を美しくコントロールしたり、遥かなる星々へロケットを打ち上げたり……。あなたの手で宇宙を操り、遊びながら最先端 of 宇宙技術に触れてみませんか？</p>
+            <p>無限のフロンティアへ！衛星の軌道を美しくコントロールしたり、遥かなる星々へロケットを打ち上げたり……。あなたの手で宇宙を操り、遊びながら最先端の宇宙技術に触れてみませんか？</p>
             <a href="https://hiro-seki-tech.github.io/orbit-simulator/" target="_blank" class="btn btn-space">🌌 宇宙シミュレータを起動する</a>
         </div>
 
@@ -388,7 +432,7 @@
                 overlay.innerHTML = `
                     <div class="gempick-aspect-box">
                         <div id="gempick-intro-image"></div>
-                        <div id="gempick-spark-bulb">💡</div>
+                        <div id="gempick-spark-bulb"></div>
                     </div>
                 `;
                 document.body.appendChild(overlay);
@@ -404,11 +448,12 @@
             // Image starts completely hidden (opacity = 0)
             introImg.style.opacity = "0";
             
-            // Mask is positioned at exact head coordinate center (49.6% X, 53.2% Y)
-            introImg.style.webkitMaskImage = "radial-gradient(circle at 49.6% 53.2%, black 0%, transparent 0%)";
-            introImg.style.maskImage = "radial-gradient(circle at 49.6% 53.2%, black 0%, transparent 0%)";
+            // [1] Mask is positioned at exact head coordinate center (50.3% X, 51.8% Y)
+            introImg.style.webkitMaskImage = "radial-gradient(circle at 50.3% 51.8%, black 0%, transparent 0%)";
+            introImg.style.maskImage = "radial-gradient(circle at 50.3% 51.8%, black 0%, transparent 0%)";
             
             // Spark bulb starts completely hidden
+            sparkBulb.textContent = "💡";
             sparkBulb.style.opacity = "0";
             sparkBulb.style.transform = "translate(-50%, -50%) scale(0)";
 
@@ -440,8 +485,8 @@
                     const easeInQuart = Math.pow(progress, 4);
                     const currentRadius = easeInQuart * 150; 
 
-                    // Expansion is anchored exactly on the synced bulb center (49.6% X, 53.2% Y)
-                    const maskValue = `radial-gradient(circle at 49.6% 53.2%, black ${currentRadius}%, transparent ${currentRadius + 15}%)`;
+                    // [1] Expansion is anchored exactly on the synced bulb center (50.3% X, 51.8% Y)
+                    const maskValue = `radial-gradient(circle at 50.3% 51.8%, black ${currentRadius}%, transparent ${currentRadius + 15}%)`;
                     introImg.style.webkitMaskImage = maskValue;
                     introImg.style.maskImage = maskValue;
 
@@ -451,13 +496,6 @@
                 }
                 requestAnimationFrame(animateLightExpansion);
             }, 1400); // Trigger expansion 1.0 second after the bulb sparks (0.4s + 1.0s = 1.4s)
-
-            // Slowly dissolve spark bulb as the wave rushes past (around 3.8s)
-            setTimeout(() => {
-                sparkBulb.style.transition = "opacity 0.8s ease, transform 0.8s ease";
-                sparkBulb.style.opacity = "0";
-                sparkBulb.style.transform = "translate(-50%, -50%) scale(0.9)";
-            }, 3800);
 
             // Hold for 3.0 seconds after full illumination (Expansion ends at 1.4s + 3.0s = 4.4s. 4.4s + 3.0s pause = 7.4s)
             setTimeout(() => {
