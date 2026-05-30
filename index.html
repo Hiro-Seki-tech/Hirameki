@@ -33,7 +33,7 @@
         /* ヘッダーエリア */
         header {
             text-align: center;
-            padding: 80px 20px 40px; /* Shifted padding down for refined layout */
+            padding: 80px 20px 40px;
         }
 
         /* タイトルネオンエフェクト */
@@ -46,7 +46,7 @@
             font-weight: 700;
         }
 
-        /* [2] Interactive Bulb Wrapper for absolute positioning of tooltip */
+        /* Interactive Bulb Wrapper */
         .bulb-wrapper {
             position: relative;
             display: inline-block;
@@ -65,10 +65,10 @@
             transform: scale(1.35) rotate(15deg);
         }
 
-        /* [2] Cute floating "Click!" speech bubble above the title bulb */
+        /* Cute floating "Click!" speech bubble above the title bulb */
         .click-bubble {
             position: absolute;
-            bottom: 120%; /* Hover nicely above the bulb */
+            bottom: 120%;
             left: 50%;
             transform: translateX(-50%);
             background: linear-gradient(135deg, #ffd700, #ff8800);
@@ -80,7 +80,7 @@
             white-space: nowrap;
             box-shadow: 0 4px 12px rgba(255, 215, 0, 0.5);
             animation: bounceBubble 1.4s infinite alternate ease-in-out;
-            pointer-events: none; /* Clicks pass right through to bulb */
+            pointer-events: none;
             z-index: 10;
         }
 
@@ -136,10 +136,10 @@
             backdrop-filter: blur(8px);
             transition: all 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
             position: relative;
-            overflow: hidden;
+            overflow: visible; /* Modified to visible to allow dropdown menus to flow outside nicely */
         }
 
-        /* [3] カテゴリー（カード）を選んだ時（ホバー時）の枠の色を水色（#00ffff）に変更 */
+        /* カテゴリー（カード）を選んだ時（ホバー時）の枠の色を水色（#00ffff）に変更 */
         .card:hover {
             transform: translateY(-10px);
             border-color: #00ffff;
@@ -172,6 +172,7 @@
             font-size: 0.95rem;
             color: #cccccc;
             line-height: 1.6;
+            margin-bottom: 20px;
         }
 
         /* リンクボタンのスタイリング */
@@ -184,6 +185,7 @@
             font-weight: bold;
             font-size: 0.9rem;
             transition: all 0.3s ease;
+            box-sizing: border-box;
         }
 
         /* 宇宙シミュレータボタン（アクティブ） */
@@ -191,11 +193,81 @@
             background: linear-gradient(45deg, #00bfff, #00ffff);
             color: #05020a;
             box-shadow: 0 0 15px rgba(0, 255, 255, 0.4);
+            border: none;
+            cursor: pointer;
+            width: 100%;
+            outline: none;
+            font-family: inherit;
         }
         .btn-space:hover {
             background: linear-gradient(45deg, #00ffff, #ffffff);
             box-shadow: 0 0 25px #00ffff;
-            transform: scale(1.05);
+            transform: scale(1.03);
+        }
+
+        /* Dropdown Menu Styles for Universe Simulator */
+        .dropdown {
+            position: relative;
+            display: inline-block;
+            width: 100%;
+            max-width: 260px;
+        }
+
+        .dropdown-menu {
+            display: none;
+            position: absolute;
+            top: calc(100% + 10px);
+            left: 50%;
+            transform: translateX(-50%) translateY(10px);
+            background: rgba(10, 5, 28, 0.95);
+            border: 2px solid #00ffff;
+            border-radius: 12px;
+            box-shadow: 0 10px 30px rgba(0, 255, 255, 0.5);
+            z-index: 100;
+            width: 100%;
+            min-width: 220px;
+            overflow: hidden;
+            opacity: 0;
+            transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275), opacity 0.3s ease;
+            backdrop-filter: blur(12px);
+        }
+
+        .dropdown-menu.show {
+            display: block;
+            opacity: 1;
+            transform: translateX(-50%) translateY(0);
+        }
+
+        .dropdown-item {
+            display: block;
+            padding: 12px 20px;
+            color: #ffffff;
+            text-decoration: none;
+            font-size: 0.9rem;
+            font-weight: bold;
+            text-align: center;
+            border-bottom: 1px solid rgba(0, 255, 255, 0.1);
+            transition: all 0.25s ease;
+        }
+
+        .dropdown-item:last-child {
+            border-bottom: none;
+        }
+
+        /* Hover style for active 2026 version */
+        .dropdown-item.active-link:hover {
+            background: rgba(0, 255, 255, 0.2);
+            color: #00ffff;
+            text-shadow: 0 0 8px #00ffff;
+        }
+
+        /* Greyed out unavailable versions */
+        .dropdown-item.disabled {
+            color: #555577;
+            background: rgba(255, 255, 255, 0.02);
+            cursor: not-allowed;
+            text-shadow: none;
+            opacity: 0.6;
         }
 
         /* 量子シミュレータボタン（建設中） */
@@ -204,6 +276,7 @@
             color: #888888;
             border: 1px dashed rgba(0, 255, 255, 0.3);
             pointer-events: none;
+            width: 100%;
         }
 
         /* フッター */
@@ -234,20 +307,20 @@
             opacity: 1;
         }
 
-        /* 16:9 Aspect Ratio Container: Keeps alignment locked in sibling structure */
+        /* 16:9 Aspect Ratio Container */
         .gempick-aspect-box {
             position: relative;
             width: 100vw;
-            height: 56.25vw; /* 16:9 aspect box on desktop */
+            height: 56.25vw;
             max-width: 177.78vh;
             max-height: 100vh;
             display: flex;
             justify-content: center;
             align-items: center;
-            overflow: visible; /* Allows bulb to glow comfortably */
+            overflow: visible;
         }
 
-        /* The beautiful background illustration scaled with perfect alignment */
+        /* The background illustration */
         #gempick-intro-image {
             position: absolute;
             top: 0;
@@ -256,32 +329,29 @@
             height: 100%;
             background-image: url('wakuwaku.png');
             background-size: 100% 100%;
-            /* [1] Recalibrated to perfect boy's head coordinates for wakuwaku.png (moved slightly right & up) */
             background-position: 50.3% 51.8%;
             background-repeat: no-repeat;
-            opacity: 0; /* Fully separated to allow independent spark bulb illumination! */
-            /* [1] Mask is also precisely anchored at the matching coordinate */
+            opacity: 0;
             -webkit-mask-image: radial-gradient(circle at 50.3% 51.8%, black 0%, transparent 0%);
             mask-image: radial-gradient(circle at 50.3% 51.8%, black 0%, transparent 0%);
             -webkit-mask-repeat: no-repeat;
             mask-repeat: no-repeat;
         }
 
-        /* Responsive Custom Zoom: Amplified to 175% to make the artwork look much larger and full-frame on smartphones/tablets! */
+        /* Responsive Custom Zoom for Mobile & Portrait */
         @media (max-width: 1024px) and (orientation: portrait) {
             .gempick-aspect-box {
                 width: 175vw;
-                height: 98.44vw; /* 175 * 9 / 16 to keep proportion locked perfectly */
+                height: 98.44vw;
             }
         }
 
-        /* The magical spark bulb - [1] Shifted to 50.3% / 51.8% and resized slightly smaller to map head position */
+        /* The magical spark bulb */
         #gempick-spark-bulb {
             position: absolute;
             top: 51.8%;
             left: 50.3%;
             transform: translate(-50%, -50%) scale(0);
-            /* Sizing scales beautifully on mobile and desktop */
             font-size: clamp(24px, 3.2vw, 55px); 
             opacity: 0;
             z-index: 1000000;
@@ -295,7 +365,7 @@
 
     <!-- Gempick's Majestic Cinematic Intro Overlay -->
     <div id="gempick-intro-overlay">
-        <!-- Aspect box acts as container for both sibling elements -->
+        <!-- Aspect box acts as container for sibling elements -->
         <div class="gempick-aspect-box">
             <div id="gempick-intro-image"></div>
             <div id="gempick-spark-bulb">💡</div>
@@ -304,13 +374,11 @@
 
     <!-- Original HP content co-created with Gemlin -->
     <header>
-        <!-- [2] Bouncing bubble wrapped around title bulb -->
         <h1>～閃き<span class="bulb-wrapper"><span id="interactive-bulb" class="inline-bulb" title="クリックするとオープニング演出がいつでも再スタートするわ！">💡</span><span class="click-bubble">クリック！</span></span>を導き未来を照らす～</h1>
     </header>
 
     <main class="grid-container">
 
-        <!-- [3] Removed "of" from descriptions to ensure pure, natural Japanese -->
         <div class="card energy">
             <div class="card-icon">⚡</div>
             <div class="card-title">1. エネルギー</div>
@@ -327,14 +395,23 @@
         <div class="card info">
             <div class="card-icon">🧠</div>
             <div class="card-title">3. 情報</div>
-            <p>生成AI、超高速通信、精度を極めるサイバー・インテリジェンスの最前線。</p>
+            <p>生成AI、超高速通信、精度を極めるサイバー・インテリジェンス of 最前線。</p>
         </div>
 
         <div class="card space">
             <div class="card-icon">🚀</div>
             <div class="card-title">4. 宇宙</div>
-            <p>無限のフロンティアへ！衛星の軌道を美しくコントロールしたり、遥かなる星々へロケットを打ち上げたり……。あなたの手で宇宙を操り、遊びながら最先端の宇宙技術に触れてみませんか？</p>
-            <a href="https://hiro-seki-tech.github.io/orbit-simulator/" target="_blank" class="btn btn-space">🌌 宇宙シミュレータを起動する</a>
+            <p>無限のフロンティアへ！衛星の軌道をコントロールしたり、星々へロケットを打ち上げたり。あなたの手で宇宙を操り、遊びながら最先端の宇宙技術に触れてみませんか？</p>
+            
+            <!-- Upgraded Interactive Dropdown Menu Container -->
+            <div class="dropdown">
+                <button class="btn btn-space" id="space-dropdown-btn">🌌 宇宙シミュレータを起動する ▾</button>
+                <div class="dropdown-menu" id="space-dropdown-menu">
+                    <a href="https://hiro-seki-tech.github.io/orbit-simulator/" target="_blank" class="dropdown-item active-link">🚀 2026年版（稼働中）</a>
+                    <span class="dropdown-item disabled">🛸 2027年版（未開拓）</span>
+                    <span class="dropdown-item disabled">🪐 2028年版（未計画）</span>
+                </div>
+            </div>
         </div>
 
     </main>
@@ -345,7 +422,6 @@
 
     <!-- Gempick's High-precision Animation Engine -->
     <script>
-        // Check if image loads successfully or fails
         const testImg = new Image();
         let imageExists = false;
 
@@ -358,12 +434,11 @@
         testImg.src = "wakuwaku.png";
 
         // ========================================================
-        // Gempick's Premium Pikareen Synth Sound System (Web Audio API)
+        // Gempick's Premium Pikareen Synth Sound System
         // ========================================================
         let audioCtx = null;
         function playPikareenSound() {
             try {
-                // Initialize context safely
                 if (!audioCtx) {
                     audioCtx = new (window.AudioContext || window.webkitAudioContext)();
                 }
@@ -373,15 +448,12 @@
 
                 const now = audioCtx.currentTime;
 
-                // 1. Crystal Shimmer Chime (Arpeggio sweep)
                 const playChimeNode = (freq, delay, duration, volume) => {
                     const osc = audioCtx.createOscillator();
                     const gain = audioCtx.createGain();
                     
                     osc.type = 'triangle';
                     osc.frequency.setValueAtTime(freq, now + delay);
-                    
-                    // Modulate frequency slightly up for sparkly chime sweep
                     osc.frequency.exponentialRampToValueAtTime(freq * 1.05, now + delay + duration);
                     
                     gain.gain.setValueAtTime(0, now + delay);
@@ -394,18 +466,16 @@
                     osc.stop(now + delay + duration);
                 };
 
-                // Play rapid sparkling upward arpeggio with sweet pikareen shimmer
                 playChimeNode(1046.50, 0.00, 0.8, 0.06); // C6
                 playChimeNode(1318.51, 0.08, 0.8, 0.06); // E6
                 playChimeNode(1567.98, 0.16, 0.8, 0.06); // G6
-                playChimeNode(2093.00, 0.24, 1.2, 0.08); // C7 (High shimmer peak)
+                playChimeNode(2093.00, 0.24, 1.2, 0.08); // C7
                 playChimeNode(2637.02, 0.32, 1.0, 0.04); // E7
 
-                // 2. Add an ambient low-warm swelling hum under the spark
                 const swellOsc = audioCtx.createOscillator();
                 const swellGain = audioCtx.createGain();
                 swellOsc.type = 'sine';
-                swellOsc.frequency.setValueAtTime(196.00, now); // G3 warm base
+                swellOsc.frequency.setValueAtTime(196.00, now);
                 swellOsc.frequency.exponentialRampToValueAtTime(392.00, now + 0.4);
                 
                 swellGain.gain.setValueAtTime(0, now);
@@ -418,13 +488,37 @@
                 swellOsc.stop(now + 0.8);
 
             } catch (e) {
-                console.log("AudioContext is restricted or not supported yet:", e);
+                console.log("AudioContext is restricted or not supported:", e);
             }
         }
 
-        // Main Cinematic Sequence function that can be run ANYTIME
+        // Keep track of timeout handlers so we can clear/skip cleanly
+        let activeFadeTimeout = null;
+        let activeCleanupTimeout = null;
+        let isSkippable = false;
+
+        // Function to skip overlay instantly
+        function skipCinematic() {
+            if (!isSkippable) return;
+
+            const overlay = document.getElementById("gempick-intro-overlay");
+            if (overlay) {
+                // Instantly trigger fade-out
+                overlay.style.transition = "opacity 0.5s ease-in-out";
+                overlay.style.opacity = "0";
+                
+                // Clear the default automated timers
+                if (activeFadeTimeout) clearTimeout(activeFadeTimeout);
+                if (activeCleanupTimeout) clearTimeout(activeCleanupTimeout);
+
+                setTimeout(() => {
+                    overlay.style.pointerEvents = "none";
+                }, 500);
+            }
+        }
+
+        // Main Cinematic Sequence
         function startCinematicIntro() {
-            // Create overlay elements dynamically if they were deleted or reuse
             let overlay = document.getElementById("gempick-intro-overlay");
             if (!overlay) {
                 overlay = document.createElement("div");
@@ -442,82 +536,101 @@
             const sparkBulb = document.getElementById("gempick-spark-bulb");
 
             // Reset Initial States
+            isSkippable = false;
             overlay.style.opacity = "1";
             overlay.style.pointerEvents = "all";
+            overlay.style.cursor = "default";
             
-            // Image starts completely hidden (opacity = 0)
             introImg.style.opacity = "0";
-            
-            // [1] Mask is positioned at exact head coordinate center (50.3% X, 51.8% Y)
             introImg.style.webkitMaskImage = "radial-gradient(circle at 50.3% 51.8%, black 0%, transparent 0%)";
             introImg.style.maskImage = "radial-gradient(circle at 50.3% 51.8%, black 0%, transparent 0%)";
             
-            // Spark bulb starts completely hidden
             sparkBulb.textContent = "💡";
             sparkBulb.style.opacity = "0";
             sparkBulb.style.transform = "translate(-50%, -50%) scale(0)";
 
-            // Step 1: Spark bulb bursts to life at 0.4s and plays "Pikareen" sound (Image remains invisible!)
+            // Remove any old skip listener and register fresh one
+            overlay.removeEventListener("click", skipCinematic);
+            overlay.addEventListener("click", skipCinematic);
+
+            // Step 1: Spark bulb bursts at 0.4s
             setTimeout(() => {
                 sparkBulb.style.transition = "transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275), opacity 0.2s ease";
                 sparkBulb.style.transform = "translate(-50%, -50%) scale(1.1)";
                 sparkBulb.style.opacity = "1";
                 sparkBulb.style.textShadow = "0 0 35px #ffffff, 0 0 70px #ffe600, 0 0 110px #ff9900";
                 
-                // Play "Pikareen" Synthesizer!
                 playPikareenSound();
             }, 400);
 
-            // Step 2: Hold the lit bulb for exactly 1.0 second (0.4s to 1.4s),
-            // then make the image appear (opacity = 1) and expand utilizing Ease-In Quart speed curve!
+            // Step 2: Hold 1 second, then expand background using Ease-In Quart speed curve
             setTimeout(() => {
-                // Now, and only now, the image itself becomes visible to begin the mask animation
                 introImg.style.opacity = "1"; 
                 
                 const startTime = performance.now();
-                const duration = 3000; // 3.0 seconds total expansion duration
+                const duration = 3000; // 3.0 seconds
 
                 function animateLightExpansion(currentTime) {
                     const elapsed = currentTime - startTime;
                     const progress = Math.min(elapsed / duration, 1);
-
-                    // Ease-In Quart Curve: progress^4 (Starts slow, then accelerates)
                     const easeInQuart = Math.pow(progress, 4);
                     const currentRadius = easeInQuart * 150; 
 
-                    // [1] Expansion is anchored exactly on the synced bulb center (50.3% X, 51.8% Y)
                     const maskValue = `radial-gradient(circle at 50.3% 51.8%, black ${currentRadius}%, transparent ${currentRadius + 15}%)`;
                     introImg.style.webkitMaskImage = maskValue;
                     introImg.style.maskImage = maskValue;
 
                     if (progress < 1) {
                         requestAnimationFrame(animateLightExpansion);
+                    } else {
+                        // Animation is complete! Now we unlock skippability invisibly to keep the screen purely artistic
+                        isSkippable = true;
+                        overlay.style.cursor = "pointer";
                     }
                 }
                 requestAnimationFrame(animateLightExpansion);
-            }, 1400); // Trigger expansion 1.0 second after the bulb sparks (0.4s + 1.0s = 1.4s)
+            }, 1400); // Trigger expansion 1.0 second after bulb sparks (0.4s + 1.0s = 1.4s)
 
-            // Hold for 3.0 seconds after full illumination (Expansion ends at 1.4s + 3.0s = 4.4s. 4.4s + 3.0s pause = 7.4s)
-            setTimeout(() => {
+            // Hold for 3.0 seconds after full illumination (Complete expansion ends at 1.4s + 3.0s = 4.4s. 4.4s + 3.0s pause = 7.4s)
+            activeFadeTimeout = setTimeout(() => {
                 overlay.style.transition = "opacity 0.8s ease-in-out";
                 overlay.style.opacity = "0";
             }, 7400);
 
-            // Complete cleanup after animation completely finishes (8.2s)
-            setTimeout(() => {
+            // Complete cleanup
+            activeCleanupTimeout = setTimeout(() => {
                 overlay.style.pointerEvents = "none";
             }, 8200);
         }
 
-        // Run automatically on load
+        // ========================================================
+        // Interactive Dropdown Controller for Universe Simulator
+        // ========================================================
         document.addEventListener("DOMContentLoaded", () => {
             startCinematicIntro();
 
-            // Link inline title bulb to reload/replay the animation!
+            // Replay Intro Button Link
             const interactiveBulb = document.getElementById("interactive-bulb");
             if (interactiveBulb) {
                 interactiveBulb.addEventListener("click", () => {
                     startCinematicIntro();
+                });
+            }
+
+            // Dropdown Toggle Logic
+            const dropdownBtn = document.getElementById("space-dropdown-btn");
+            const dropdownMenu = document.getElementById("space-dropdown-menu");
+
+            if (dropdownBtn && dropdownMenu) {
+                // Toggle show class on button click
+                dropdownBtn.addEventListener("click", (e) => {
+                    e.stopPropagation(); // Avoid triggering document click close handler
+                    dropdownMenu.classList.toggle("show");
+                });
+
+                // Close dropdown when clicking anywhere else on document
+                document.addEventListener("click", () => {
+                    dropdownMenu.classList.remove("show");
                 });
             }
         });
