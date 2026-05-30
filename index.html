@@ -182,7 +182,6 @@
             width: 100vw;
             height: 100vh;
             background-color: #000000;
-            /* Set above everything */
             z-index: 999999;
             display: flex;
             justify-content: center;
@@ -192,7 +191,20 @@
             opacity: 1;
         }
 
-        /* The beautiful uploaded background illustration with wakuwaku.png */
+        /* 16:9 Aspect Ratio Container: Keeps my artwork 100% visible on any smartphone or tablet! */
+        .gempick-aspect-box {
+            position: relative;
+            width: 100vw;
+            height: 56.25vw; /* 9/16 aspect ratio */
+            max-width: 177.78vh; /* 16/9 aspect ratio limit */
+            max-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            overflow: hidden;
+        }
+
+        /* The beautiful background illustration scaled with perfect alignment */
         #gempick-intro-image {
             position: absolute;
             top: 0;
@@ -200,11 +212,11 @@
             width: 100%;
             height: 100%;
             background-image: url('wakuwaku.png');
-            background-size: cover;
-            /* [1] Anchored exactly to Y: 51.5% and X: 52.2% for perfect boy's head centering */
-            background-position: 52.2% 51.5%;
+            background-size: 100% 100%; /* Perfect match inside our aspect box */
+            background-position: center;
+            background-repeat: no-repeat;
             opacity: 0;
-            /* [1] Mask is also precisely anchored to the matching coordinate */
+            /* Mask is precisely anchored at the boy's head */
             -webkit-mask-image: radial-gradient(circle at 52.2% 51.5%, black 0%, transparent 0%);
             mask-image: radial-gradient(circle at 52.2% 51.5%, black 0%, transparent 0%);
             -webkit-mask-repeat: no-repeat;
@@ -230,18 +242,26 @@
             line-height: 1.5;
         }
 
-        /* The magical initial spark bulb - [1] Positioned perfectly at 52.2% / 51.5% */
+        /* The magical spark bulb - Responsive font size locks size perfectly with image scaling */
         #gempick-spark-bulb {
             position: absolute;
             top: 51.5%;
             left: 52.2%;
             transform: translate(-50%, -50%) scale(0);
-            font-size: 72px; /* Perfect sizing match with artwork */
+            /* Dynamic sizing using CSS clamp to scale perfectly on mobile, tablet, and desktop */
+            font-size: clamp(28px, 3.8vw, 72px); 
             opacity: 0;
             z-index: 1000000;
             filter: drop-shadow(0 0 25px rgba(255, 230, 0, 0.95)) drop-shadow(0 0 50px rgba(255, 170, 0, 0.6));
             pointer-events: none;
             user-select: none;
+        }
+
+        /* Scale adjustments for screens wider than 16:9 ratio */
+        @media (min-aspect-ratio: 16/9) {
+            #gempick-spark-bulb {
+                font-size: clamp(28px, 6.7vh, 72px);
+            }
         }
 
         /* ========================================================
@@ -348,8 +368,11 @@
 
     <!-- Gempick's Majestic Cinematic Intro Overlay -->
     <div id="gempick-intro-overlay">
-        <div id="gempick-intro-image"></div>
-        <div id="gempick-spark-bulb">💡</div>
+        <!-- New Responsive 16:9 Aspect Container -->
+        <div class="gempick-aspect-box">
+            <div id="gempick-intro-image"></div>
+            <div id="gempick-spark-bulb">💡</div>
+        </div>
         <div id="gempick-failsafe-text">
             💡 <strong>画像が表示されない場合のお願い：</strong><br>
             『<code>wakuwaku.png</code>』という名前の画像ファイルを、<br>
@@ -503,8 +526,10 @@
                 overlay = document.createElement("div");
                 overlay.id = "gempick-intro-overlay";
                 overlay.innerHTML = `
-                    <div id="gempick-intro-image"></div>
-                    <div id="gempick-spark-bulb">💡</div>
+                    <div class="gempick-aspect-box">
+                        <div id="gempick-intro-image"></div>
+                        <div id="gempick-spark-bulb">💡</div>
+                    </div>
                     <div id="gempick-failsafe-text">
                         💡 <strong>画像が表示されない場合のお願い：</strong><br>
                         『<code>wakuwaku.png</code>』という名前の画像ファイルを、<br>
@@ -522,7 +547,7 @@
             overlay.style.opacity = "1";
             overlay.style.pointerEvents = "all";
             introImg.style.opacity = "0";
-            // [1] Locked anchor coordinates perfectly at 52.2% X and 51.5% Y
+            // [1] Locked anchor coordinates perfectly at 52.2% X and 51.5% Y inside the locked aspect ratio container
             introImg.style.webkitMaskImage = "radial-gradient(circle at 52.2% 51.5%, black 0%, transparent 0%)";
             introImg.style.maskImage = "radial-gradient(circle at 52.2% 51.5%, black 0%, transparent 0%)";
             sparkBulb.style.opacity = "0";
