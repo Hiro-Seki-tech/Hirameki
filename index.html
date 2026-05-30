@@ -191,21 +191,31 @@
             opacity: 1;
         }
 
-        /* The beautiful background illustration scaled with perfect alignment */
-        #gempick-intro-image {
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
+        /* 16:9 Aspect Ratio Container: Keeps alignment locked in sibling structure */
+        .gempick-aspect-box {
+            position: relative;
             width: 100vw;
             height: 56.25vw; /* 16:9 aspect box on desktop */
             max-width: 177.78vh;
             max-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            overflow: visible; /* Allows bulb to glow comfortably */
+        }
+
+        /* The beautiful background illustration scaled with perfect alignment */
+        #gempick-intro-image {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
             background-image: url('wakuwaku.png');
             background-size: 100% 100%;
             background-position: center;
             background-repeat: no-repeat;
-            opacity: 0;
+            opacity: 0; /* Fully separated: We can safely set this to 0 now! */
             /* Mask is precisely anchored at the boy's head */
             -webkit-mask-image: radial-gradient(circle at 52.2% 51.5%, black 0%, transparent 0%);
             mask-image: radial-gradient(circle at 52.2% 51.5%, black 0%, transparent 0%);
@@ -216,13 +226,13 @@
         /* Responsive Custom Zoom: Enlarges illustration on portrait screens (smartphones/tablets).
            Scales width to 135% so left glowing lotuses and right aurora beautifully border the screen edges! */
         @media (max-width: 1024px) and (orientation: portrait) {
-            #gempick-intro-image {
+            .gempick-aspect-box {
                 width: 135vw;
                 height: 75.94vw; /* 135 * 9 / 16 to keep proportion locked */
             }
         }
 
-        /* The magical spark bulb - Now nested inside the image to maintain relative positioning perfectly */
+        /* The magical spark bulb - Moved outside the image as a sibling to prevent child opacity inheritance! */
         #gempick-spark-bulb {
             position: absolute;
             top: 51.5%;
@@ -242,8 +252,9 @@
 
     <!-- Gempick's Majestic Cinematic Intro Overlay -->
     <div id="gempick-intro-overlay">
-        <div id="gempick-intro-image">
-            <!-- Spark bulb nested within the image container for infallible relative coordinates -->
+        <!-- Aspect box acts as container for both sibling elements -->
+        <div class="gempick-aspect-box">
+            <div id="gempick-intro-image"></div>
             <div id="gempick-spark-bulb">💡</div>
         </div>
     </div>
@@ -375,7 +386,8 @@
                 overlay = document.createElement("div");
                 overlay.id = "gempick-intro-overlay";
                 overlay.innerHTML = `
-                    <div id="gempick-intro-image">
+                    <div class="gempick-aspect-box">
+                        <div id="gempick-intro-image"></div>
                         <div id="gempick-spark-bulb">💡</div>
                     </div>
                 `;
@@ -388,14 +400,19 @@
             // Reset Initial States
             overlay.style.opacity = "1";
             overlay.style.pointerEvents = "all";
+            
+            // Image starts completely hidden (opacity = 0)
             introImg.style.opacity = "0";
-            // Locked anchor coordinates perfectly at 52.2% X and 51.5% Y inside the container
+            
+            // Mask is positioned at exact head coordinate center (52.2% X, 51.5% Y)
             introImg.style.webkitMaskImage = "radial-gradient(circle at 52.2% 51.5%, black 0%, transparent 0%)";
             introImg.style.maskImage = "radial-gradient(circle at 52.2% 51.5%, black 0%, transparent 0%)";
+            
+            // Spark bulb starts completely hidden
             sparkBulb.style.opacity = "0";
             sparkBulb.style.transform = "translate(-50%, -50%) scale(0)";
 
-            // Spark bulb bursts to life at 0.4s and plays "Pikareen" sound
+            // Step 1: Spark bulb bursts to life at 0.4s and plays "Pikareen" sound (Image remains invisible!)
             setTimeout(() => {
                 sparkBulb.style.transition = "transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275), opacity 0.2s ease";
                 sparkBulb.style.transform = "translate(-50%, -50%) scale(1.1)";
@@ -406,10 +423,11 @@
                 playPikareenSound();
             }, 400);
 
-            // Hold the lit bulb for exactly 1.0 second (0.4s to 1.4s),
-            // then expand utilizing an Ease-In exponent speed curve (Starts slow, then accelerates!).
+            // Step 2: Hold the lit bulb for exactly 1.0 second (0.4s to 1.4s),
+            // then make the image appear (opacity = 1) and expand utilizing Ease-In Quart speed curve!
             setTimeout(() => {
-                introImg.style.opacity = "1";
+                // Now, and only now, the image itself becomes visible to begin the mask animation
+                introImg.style.opacity = "1"; 
                 
                 const startTime = performance.now();
                 const duration = 3000; // 3.0 seconds total expansion duration
@@ -418,8 +436,7 @@
                     const elapsed = currentTime - startTime;
                     const progress = Math.min(elapsed / duration, 1);
 
-                    // Ease-In Quart Curve: progress^4
-                    // Starts incredibly slow, and builds up velocity to explode outward near the end
+                    // Ease-In Quart Curve: progress^4 (Starts slow, then accelerates)
                     const easeInQuart = Math.pow(progress, 4);
                     const currentRadius = easeInQuart * 150; 
 
