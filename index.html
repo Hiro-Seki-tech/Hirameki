@@ -46,7 +46,7 @@
             font-weight: 700;
         }
 
-        /* [2] Inline interactive glowing bulb within the title */
+        /* Inline interactive glowing bulb within the title */
         .inline-bulb {
             display: inline-block;
             cursor: pointer;
@@ -115,7 +115,7 @@
             font-weight: 600;
         }
 
-        /* [2] カラー変更指示の反映 */
+        /* カラー変更指示の反映 */
         /* エネルギー：黄色 */
         .card.energy .card-title { color: #ffe600; text-shadow: 0 0 5px rgba(255,230,0,0.5); }
         /* 物質：緑 */
@@ -191,28 +191,18 @@
             opacity: 1;
         }
 
-        /* 16:9 Aspect Ratio Container: Keeps my artwork 100% visible on any smartphone or tablet! */
-        .gempick-aspect-box {
-            position: relative;
-            width: 100vw;
-            height: 56.25vw; /* 9/16 aspect ratio */
-            max-width: 177.78vh; /* 16/9 aspect ratio limit */
-            max-height: 100vh;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            overflow: hidden;
-        }
-
         /* The beautiful background illustration scaled with perfect alignment */
         #gempick-intro-image {
             position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 100vw;
+            height: 56.25vw; /* 16:9 aspect box on desktop */
+            max-width: 177.78vh;
+            max-height: 100vh;
             background-image: url('wakuwaku.png');
-            background-size: 100% 100%; /* Perfect match inside our aspect box */
+            background-size: 100% 100%;
             background-position: center;
             background-repeat: no-repeat;
             opacity: 0;
@@ -223,144 +213,28 @@
             mask-repeat: no-repeat;
         }
 
-        /* Failsafe Text Box (shows ONLY if image cannot be loaded) */
-        #gempick-failsafe-text {
-            position: absolute;
-            bottom: 40px;
-            text-align: center;
-            font-size: 0.85rem;
-            color: #ffd700;
-            background: rgba(0, 0, 0, 0.85);
-            padding: 10px 20px;
-            border-radius: 20px;
-            border: 1px solid #ffd700;
-            max-width: 80%;
-            z-index: 1000001;
-            opacity: 0;
-            transition: opacity 1s ease;
-            pointer-events: none;
-            line-height: 1.5;
+        /* Responsive Custom Zoom: Enlarges illustration on portrait screens (smartphones/tablets).
+           Scales width to 135% so left glowing lotuses and right aurora beautifully border the screen edges! */
+        @media (max-width: 1024px) and (orientation: portrait) {
+            #gempick-intro-image {
+                width: 135vw;
+                height: 75.94vw; /* 135 * 9 / 16 to keep proportion locked */
+            }
         }
 
-        /* The magical spark bulb - Responsive font size locks size perfectly with image scaling */
+        /* The magical spark bulb - Now nested inside the image to maintain relative positioning perfectly */
         #gempick-spark-bulb {
             position: absolute;
             top: 51.5%;
             left: 52.2%;
             transform: translate(-50%, -50%) scale(0);
-            /* Dynamic sizing using CSS clamp to scale perfectly on mobile, tablet, and desktop */
-            font-size: clamp(28px, 3.8vw, 72px); 
+            /* Sizing scales beautifully on mobile and desktop */
+            font-size: clamp(32px, 4.5vw, 72px); 
             opacity: 0;
             z-index: 1000000;
             filter: drop-shadow(0 0 25px rgba(255, 230, 0, 0.95)) drop-shadow(0 0 50px rgba(255, 170, 0, 0.6));
             pointer-events: none;
             user-select: none;
-        }
-
-        /* Scale adjustments for screens wider than 16:9 ratio */
-        @media (min-aspect-ratio: 16/9) {
-            #gempick-spark-bulb {
-                font-size: clamp(28px, 6.7vh, 72px);
-            }
-        }
-
-        /* ========================================================
-           Floating Gallery & Download Center
-           ======================================================== */
-        .gallery-trigger {
-            position: fixed;
-            bottom: 25px;
-            right: 25px;
-            background: rgba(20, 10, 35, 0.85);
-            border: 2px solid #00ffff;
-            padding: 12px 18px;
-            border-radius: 50px;
-            cursor: pointer;
-            font-size: 0.85rem;
-            font-weight: bold;
-            color: #00ffff;
-            box-shadow: 0 0 15px rgba(0, 255, 255, 0.3);
-            transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-            z-index: 500;
-            display: flex;
-            align-items: center;
-            gap: 8px;
-        }
-        .gallery-trigger:hover {
-            transform: scale(1.08) translateY(-3px);
-            background: #00ffff;
-            color: #05020a;
-            box-shadow: 0 0 25px rgba(0, 255, 255, 0.7);
-        }
-
-        /* Simple Modal */
-        #art-modal {
-            position: fixed;
-            top: 0; left: 0; width: 100vw; height: 100vh;
-            background: rgba(3, 1, 8, 0.95);
-            z-index: 9999;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            opacity: 0;
-            pointer-events: none;
-            transition: opacity 0.4s ease;
-            padding: 20px;
-        }
-        #art-modal.active {
-            opacity: 1;
-            pointer-events: all;
-        }
-        .modal-content {
-            position: relative;
-            max-width: 90%;
-            max-height: 75%;
-            border-radius: 16px;
-            box-shadow: 0 0 40px rgba(255, 215, 0, 0.3);
-            border: 2px solid #ffd700;
-            overflow: hidden;
-        }
-        .modal-content img {
-            max-width: 100%;
-            max-height: 100%;
-            display: block;
-        }
-        .modal-actions {
-            margin-top: 20px;
-            display: flex;
-            gap: 15px;
-            align-items: center;
-        }
-        .btn-download {
-            background: linear-gradient(135deg, #ffd700 0%, #ffaa00 100%);
-            color: #05020a;
-            padding: 12px 25px;
-            border-radius: 30px;
-            text-decoration: none;
-            font-weight: bold;
-            font-size: 0.95rem;
-            box-shadow: 0 0 15px rgba(255, 215, 0, 0.4);
-            transition: all 0.3s ease;
-        }
-        .btn-download:hover {
-            background: linear-gradient(135deg, #ffffff 0%, #ffd700 100%);
-            box-shadow: 0 0 25px rgba(255, 215, 0, 0.8);
-            transform: scale(1.05);
-        }
-        .btn-close {
-            background: rgba(255, 255, 255, 0.1);
-            color: #ffffff;
-            border: 1px solid rgba(255, 255, 255, 0.3);
-            padding: 12px 25px;
-            border-radius: 30px;
-            cursor: pointer;
-            font-weight: bold;
-            font-size: 0.95rem;
-            transition: all 0.3s ease;
-        }
-        .btn-close:hover {
-            background: rgba(255, 255, 255, 0.2);
         }
     </style>
 </head>
@@ -368,21 +242,15 @@
 
     <!-- Gempick's Majestic Cinematic Intro Overlay -->
     <div id="gempick-intro-overlay">
-        <!-- New Responsive 16:9 Aspect Container -->
-        <div class="gempick-aspect-box">
-            <div id="gempick-intro-image"></div>
+        <div id="gempick-intro-image">
+            <!-- Spark bulb nested within the image container for infallible relative coordinates -->
             <div id="gempick-spark-bulb">💡</div>
-        </div>
-        <div id="gempick-failsafe-text">
-            💡 <strong>画像が表示されない場合のお願い：</strong><br>
-            『<code>wakuwaku.png</code>』という名前の画像ファイルを、<br>
-            この <code>index.html</code> と<strong>同じフォルダ内</strong>に保存してから開いてみてくださいね！
         </div>
     </div>
 
     <!-- Original HP content co-created with Gemlin -->
     <header>
-        <!-- [2] Removed old large bulb. Inserted interactive glowing bulb within the title phrase -->
+        <!-- Removed old large bulb. Interactive glowing bulb nested inside the title phrase -->
         <h1>～閃き<span id="interactive-bulb" class="inline-bulb" title="クリックするとオープニング演出がいつでも再スタートするわ！">💡</span>を導き未来を照らす～</h1>
     </header>
 
@@ -415,25 +283,6 @@
         </div>
 
     </main>
-
-    <!-- Floating Concept Gallery Trigger & Download Buttons -->
-    <div class="gallery-trigger" onclick="openArtModal()">
-        <span>🖼️ アートを拡大/ダウンロード</span>
-    </div>
-
-    <!-- Art Viewer Modal -->
-    <div id="art-modal">
-        <div class="modal-content">
-            <img src="wakuwaku.png" id="modal-img-tag" alt="閃きとワクワク 電球バージョン" onerror="handleModalImgError(this)">
-        </div>
-        <div class="modal-actions">
-            <!-- Download Button (Rule Compliance) -->
-            <a href="wakuwaku.png" download="wakuwaku.png" class="btn-download" id="modal-dl-btn">
-                📥 画像をダウンロードする
-            </a>
-            <button class="btn-close" onclick="closeArtModal()">閉じる</button>
-        </div>
-    </div>
 
     <footer>
         &copy; 2026 Knight of Originality Project. All Rights Reserved.
@@ -526,14 +375,8 @@
                 overlay = document.createElement("div");
                 overlay.id = "gempick-intro-overlay";
                 overlay.innerHTML = `
-                    <div class="gempick-aspect-box">
-                        <div id="gempick-intro-image"></div>
+                    <div id="gempick-intro-image">
                         <div id="gempick-spark-bulb">💡</div>
-                    </div>
-                    <div id="gempick-failsafe-text">
-                        💡 <strong>画像が表示されない場合のお願い：</strong><br>
-                        『<code>wakuwaku.png</code>』という名前の画像ファイルを、<br>
-                        この <code>index.html</code> と<strong>同じフォルダ内</strong>に保存してから開いてみてくださいね！
                     </div>
                 `;
                 document.body.appendChild(overlay);
@@ -541,27 +384,18 @@
 
             const introImg = document.getElementById("gempick-intro-image");
             const sparkBulb = document.getElementById("gempick-spark-bulb");
-            const failsafeText = document.getElementById("gempick-failsafe-text");
 
             // Reset Initial States
             overlay.style.opacity = "1";
             overlay.style.pointerEvents = "all";
             introImg.style.opacity = "0";
-            // [1] Locked anchor coordinates perfectly at 52.2% X and 51.5% Y inside the locked aspect ratio container
+            // Locked anchor coordinates perfectly at 52.2% X and 51.5% Y inside the container
             introImg.style.webkitMaskImage = "radial-gradient(circle at 52.2% 51.5%, black 0%, transparent 0%)";
             introImg.style.maskImage = "radial-gradient(circle at 52.2% 51.5%, black 0%, transparent 0%)";
             sparkBulb.style.opacity = "0";
             sparkBulb.style.transform = "translate(-50%, -50%) scale(0)";
-            failsafeText.style.opacity = "0";
 
-            // If the image test failed, prepare failsafe guide after dark screen
-            setTimeout(() => {
-                if (!imageExists) {
-                    failsafeText.style.opacity = "1";
-                }
-            }, 600);
-
-            // [1 & 2] Spark bulb bursts to life at 0.4s and plays "Pikareen" sound
+            // Spark bulb bursts to life at 0.4s and plays "Pikareen" sound
             setTimeout(() => {
                 sparkBulb.style.transition = "transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275), opacity 0.2s ease";
                 sparkBulb.style.transform = "translate(-50%, -50%) scale(1.1)";
@@ -572,7 +406,7 @@
                 playPikareenSound();
             }, 400);
 
-            // [2] New schedule: Hold the lit bulb for exactly 1.0 second (0.4s to 1.4s),
+            // Hold the lit bulb for exactly 1.0 second (0.4s to 1.4s),
             // then expand utilizing an Ease-In exponent speed curve (Starts slow, then accelerates!).
             setTimeout(() => {
                 introImg.style.opacity = "1";
@@ -584,12 +418,12 @@
                     const elapsed = currentTime - startTime;
                     const progress = Math.min(elapsed / duration, 1);
 
-                    // [2] Ease-In Quart Curve: progress^4
+                    // Ease-In Quart Curve: progress^4
                     // Starts incredibly slow, and builds up velocity to explode outward near the end
                     const easeInQuart = Math.pow(progress, 4);
                     const currentRadius = easeInQuart * 150; 
 
-                    // [1] Expansion is anchored exactly on the synced bulb center (52.2% X, 51.5% Y)
+                    // Expansion is anchored exactly on the synced bulb center (52.2% X, 51.5% Y)
                     const maskValue = `radial-gradient(circle at 52.2% 51.5%, black ${currentRadius}%, transparent ${currentRadius + 15}%)`;
                     introImg.style.webkitMaskImage = maskValue;
                     introImg.style.maskImage = maskValue;
@@ -608,11 +442,10 @@
                 sparkBulb.style.transform = "translate(-50%, -50%) scale(0.9)";
             }, 3800);
 
-            // [4] Hold for 3.0 seconds after full illumination (Expansion ends at 1.4s + 3.0s = 4.4s. 4.4s + 3.0s pause = 7.4s)
+            // Hold for 3.0 seconds after full illumination (Expansion ends at 1.4s + 3.0s = 4.4s. 4.4s + 3.0s pause = 7.4s)
             setTimeout(() => {
                 overlay.style.transition = "opacity 0.8s ease-in-out";
                 overlay.style.opacity = "0";
-                failsafeText.style.opacity = "0";
             }, 7400);
 
             // Complete cleanup after animation completely finishes (8.2s)
@@ -633,34 +466,6 @@
                 });
             }
         });
-
-        // ========================================================
-        // Modal & Image Utility functions (Rule compliance)
-        // ========================================================
-        function openArtModal() {
-            const modal = document.getElementById("art-modal");
-            modal.classList.add("active");
-        }
-
-        function closeArtModal() {
-            const modal = document.getElementById("art-modal");
-            modal.classList.remove("active");
-        }
-
-        function handleModalImgError(img) {
-            img.style.display = "none";
-            const parent = img.parentElement;
-            const errorTip = document.createElement("div");
-            errorTip.style.padding = "40px";
-            errorTip.style.color = "#ffd700";
-            errorTip.style.textAlign = "center";
-            errorTip.innerHTML = `
-                <div style="font-size:3rem; margin-bottom:10px;">⚠️</div>
-                <strong>『wakuwaku.png』が見つかりません。</strong><br>
-                <span style="font-size:0.8rem; color:#888;">このHTMLと同じフォルダに画像を置いてからお試しください。</span>
-            `;
-            parent.appendChild(errorTip);
-        }
     </script>
 
 </body>
