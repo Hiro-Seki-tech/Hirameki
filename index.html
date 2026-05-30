@@ -213,30 +213,30 @@
             height: 100%;
             background-image: url('wakuwaku.png');
             background-size: 100% 100%;
-            background-position: center;
+            /* [1] Recalibrated to perfect coordinates for the new wakuwaku.png */
+            background-position: 49.6% 53.2%;
             background-repeat: no-repeat;
-            opacity: 0; /* Fully separated: We can safely set this to 0 now! */
-            /* Mask is precisely anchored at the boy's head */
-            -webkit-mask-image: radial-gradient(circle at 52.2% 51.5%, black 0%, transparent 0%);
-            mask-image: radial-gradient(circle at 52.2% 51.5%, black 0%, transparent 0%);
+            opacity: 0; /* Fully separated to allow independent spark bulb illumination! */
+            /* [1] Mask is also precisely anchored at the matching coordinate */
+            -webkit-mask-image: radial-gradient(circle at 49.6% 53.2%, black 0%, transparent 0%);
+            mask-image: radial-gradient(circle at 49.6% 53.2%, black 0%, transparent 0%);
             -webkit-mask-repeat: no-repeat;
             mask-repeat: no-repeat;
         }
 
-        /* Responsive Custom Zoom: Enlarges illustration on portrait screens (smartphones/tablets).
-           Scales width to 135% so left glowing lotuses and right aurora beautifully border the screen edges! */
+        /* [2] Responsive Custom Zoom: Amplified to 175% to make the artwork look much larger and full-frame on smartphones/tablets! */
         @media (max-width: 1024px) and (orientation: portrait) {
             .gempick-aspect-box {
-                width: 135vw;
-                height: 75.94vw; /* 135 * 9 / 16 to keep proportion locked */
+                width: 175vw;
+                height: 98.44vw; /* 175 * 9 / 16 to keep proportion locked perfectly */
             }
         }
 
-        /* The magical spark bulb - Moved outside the image as a sibling to prevent child opacity inheritance! */
+        /* The magical spark bulb - [1] Shifted to the left at 49.6% and slightly down to 53.2% */
         #gempick-spark-bulb {
             position: absolute;
-            top: 51.5%;
-            left: 52.2%;
+            top: 53.2%;
+            left: 49.6%;
             transform: translate(-50%, -50%) scale(0);
             /* Sizing scales beautifully on mobile and desktop */
             font-size: clamp(32px, 4.5vw, 72px); 
@@ -404,9 +404,9 @@
             // Image starts completely hidden (opacity = 0)
             introImg.style.opacity = "0";
             
-            // Mask is positioned at exact head coordinate center (52.2% X, 51.5% Y)
-            introImg.style.webkitMaskImage = "radial-gradient(circle at 52.2% 51.5%, black 0%, transparent 0%)";
-            introImg.style.maskImage = "radial-gradient(circle at 52.2% 51.5%, black 0%, transparent 0%)";
+            // Mask is positioned at exact head coordinate center (49.6% X, 53.2% Y)
+            introImg.style.webkitMaskImage = "radial-gradient(circle at 49.6% 53.2%, black 0%, transparent 0%)";
+            introImg.style.maskImage = "radial-gradient(circle at 49.6% 53.2%, black 0%, transparent 0%)";
             
             // Spark bulb starts completely hidden
             sparkBulb.style.opacity = "0";
@@ -440,8 +440,8 @@
                     const easeInQuart = Math.pow(progress, 4);
                     const currentRadius = easeInQuart * 150; 
 
-                    // Expansion is anchored exactly on the synced bulb center (52.2% X, 51.5% Y)
-                    const maskValue = `radial-gradient(circle at 52.2% 51.5%, black ${currentRadius}%, transparent ${currentRadius + 15}%)`;
+                    // Expansion is anchored exactly on the synced bulb center (49.6% X, 53.2% Y)
+                    const maskValue = `radial-gradient(circle at 49.6% 53.2%, black ${currentRadius}%, transparent ${currentRadius + 15}%)`;
                     introImg.style.webkitMaskImage = maskValue;
                     introImg.style.maskImage = maskValue;
 
